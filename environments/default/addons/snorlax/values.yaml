@@ -1,0 +1,32 @@
+metricsService:
+  ports:
+  - name: https
+    port: 8443
+    protocol: TCP
+    targetPort: https
+  type: NodePort
+
+controllerManager:
+  kubeRbacProxy:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 500m
+        memory: 128Mi
+  manager:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 250m
+        memory: 128Mi
+  metricsService:
+    ports:
+    - name: https
+      port: 8443
+      protocol: TCP
+      targetPort: https
+    type: ClusterIP

@@ -1,0 +1,83 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: addons-external-dns
+spec:
+  goTemplate: true
+  syncPolicy:
+    preserveResourcesOnDeletion: false
+  ignoreApplicationDifferences:
+    - jsonPointers:
+      - /spec/syncPolicy/automated
+      - /spec/source/targetRevision
+  generators:
+    - merge:
+        mergeKeys: [server]
+        generators:
+          - clusters:
+              values:
+                addonChart: external-dns
+                # anything not staging or prod use this version
+                addonChartVersion: 1.14.5
+                addonChartRepository: https://kubernetes-sigs.github.io/external-dns
+              selector:
+                matchExpressions:
+                  - key: akuity.io/argo-cd-cluster-name
+                    operator: NotIn
+                    values: [in-cluster]
+                  - key: enable_external_dns
+                    operator: In
+                    values: ['true']
+          - clusters:
+              selector:
+                matchLabels:
+                  environment: staging
+              values:
+                addonChartVersion: 1.14.5
+          - clusters:
+              selector:
+                matchLabels:
+                  environment: prod
+              values:
+                addonChartVersion: 1.14.3
+  template:
+    metadata:
+      name: 'addon-{{.name}}-{{.values.addonChart}}'
+    spec:
+      project: default
+      sources:
+        - repoURL: '{{.metadata.annotations.addons_repo_url}}'
+          targetRevision: '{{.metadata.annotations.addons_repo_revision}}'
+          ref: values
+        - chart: '{{.values.addonChart}}'
+          repoURL: '{{.values.addonChartRepository}}'
+          targetRevision: '{{.values.addonChartVersion}}'
+          helm:
+            releaseName: '{{.values.addonChart}}'
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - $values/{{.metadata.annotations.addons_repo_basepath}}/environments/default/addons/{{.values.addonChart}}/values.yaml
+              - $values/{{.metadata.annotations.addons_repo_basepath}}/environments/{{.metadata.labels.environment}}/addons/{{.values.addonChart}}/values.yaml
+              - $values/{{.metadata.annotations.addons_repo_basepath}}/clusters/{{.name}}/addons/{{.values.addonChart}}/values.yaml
+      destination:
+        namespace: '{{.values.addonChart}}'
+        name: '{{.name}}'
+      ignoreDifferences:
+        # Warning: Kinds are case sensitive
+        - group: monitoring.coreos.com
+          jsonPointers:
+            - /spec/endpoints
+          kind: ServiceMonitor
+        - group: apps
+          jsonPointers:
+            - /spec/replicas
+          kind: Deployment
+      syncPolicy:
+        managedNamespaceMetadata:
+          labels:
+            goldilocks.fairwinds.com/enabled: 'false'
+        automated: {}
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true # Big CRDs.

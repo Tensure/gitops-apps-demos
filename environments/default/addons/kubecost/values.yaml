@@ -1,0 +1,2 @@
+global.prometheus:
+  enabled: true # Set to true if you want to use bundled Prometheus

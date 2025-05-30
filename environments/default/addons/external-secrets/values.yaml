@@ -1,0 +1,30 @@
+# Helm chart values
+#replicaCount: 2 # High availability by having multiple replicas
+rbac:
+  create: true
+
+resources:
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+    additionalLabels:
+      release: prometheus-operator
+
+webhook:
+  enabled: true
+  port: 9443
+
+# Enable Leader Election for stability
+leaderElection:
+  enabled: true
+  namespace: external-secrets
+
+# External Secrets CRDs Configuration
+crds:
+  create: true
+
+# Configuring logging level
+logLevel: info

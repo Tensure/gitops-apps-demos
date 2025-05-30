@@ -1,0 +1,20 @@
+# Helm chart value
+global:
+  leaderElection:
+    namespace: cert-manager
+dns01RecursiveNameservers: "8.8.8.8:53,1.1.1.1:53"
+dns01RecursiveNamesesrversOnly: true
+extraArgs: ["--dns01-recursive-nameservers-only","--dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53"]
+
+resources:
+  # Request and limit resources to align with GKE Autopilot's requirements
+
+webhook:
+  enabled: true
+  securePort: 10250
+
+cainjector:
+  enabled: true
+
+prometheus:
+  enabled: true

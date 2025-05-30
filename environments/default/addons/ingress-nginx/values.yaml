@@ -1,0 +1,84 @@
+controller:
+  #replicaCount: 3
+  config:
+    enable-ssl-passthrough: "true"
+  extraArgs:
+    enable-ssl-passthrough: ""
+  service:
+    annotations:
+    externalTrafficPolicy: Local # Preserve the source IP address
+    #loadBalancerIP: ""  # If you have a reserved static IP, you can specify it here
+
+  # affinity:
+  #   podAntiAffinity:
+  #     requiredDuringSchedulingIgnoredDuringExecution:
+  #       - labelSelector:
+  #           matchExpressions:
+  #             - key: app.kubernetes.io/name
+  #               operator: In
+  #               values:
+  #                 - ingress-nginx
+  #         topologyKey: "kubernetes.io/hostname"
+  
+
+  
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: 10254
+      scheme: HTTP
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+    
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: 10254
+      scheme: HTTP
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+  
+  metrics:
+    enabled: true
+  
+  admissionWebhooks:
+    enabled: true
+    failurePolicy: Fail
+
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  # Enable TLS with cert-manager
+  ingressClassResource:
+    name: nginx
+    controllerValue: "k8s.io/ingress-nginx"
+    enabled: true
+    default: true
+
+  # Add cert-manager annotations to enable automatic certificate management
+  # ingress:
+  #   annotations:
+  #     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  #   tls:
+  #     - hosts:
+  #         - your.domain.com
+  #       secretName: your-tls-secret
+
+defaultBackend:
+  enabled: false
+
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
