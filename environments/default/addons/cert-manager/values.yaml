@@ -4,17 +4,41 @@ global:
     namespace: cert-manager
 dns01RecursiveNameservers: "8.8.8.8:53,1.1.1.1:53"
 dns01RecursiveNamesesrversOnly: true
-extraArgs: ["--dns01-recursive-nameservers-only","--dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53"]
+extraArgs:
+  [
+    "--dns01-recursive-nameservers-only",
+    "--dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53",
+  ]
 
 resources:
   # Request and limit resources to align with GKE Autopilot's requirements
+  requests:
+    cpu: 50m
+    memory: 55Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
 
 webhook:
   enabled: true
   securePort: 10250
+  resources:
+    requests:
+      cpu: 50m
+      memory: 55Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
 
 cainjector:
   enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 55Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
 
 prometheus:
   enabled: true
