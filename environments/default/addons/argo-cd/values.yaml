@@ -117,3 +117,16 @@ extraObjects:
       name: kueuecharts
       type: helm
       enableOCI: "true"
+  - |
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      labels:
+        argocd.argoproj.io/secret-type: repository
+      name: slinky-oci
+      namespace: argocd
+    stringData:
+      url: ghcr.io/slinkyproject/charts
+      name: slinkycharts
+      type: helm
+      enableOCI: "true"
