@@ -9,8 +9,8 @@ spec:
     preserveResourcesOnDeletion: false
   ignoreApplicationDifferences:
     - jsonPointers:
-      - /spec/syncPolicy/automated
-      - /spec/source/targetRevision
+        - /spec/syncPolicy/automated
+        - /spec/source/targetRevision
   generators:
     - merge:
         mergeKeys: [server]
@@ -28,7 +28,7 @@ spec:
                     values: [in-cluster]
                   - key: enable_cert_manager
                     operator: In
-                    values: ['true']
+                    values: ["true"]
           - clusters:
               selector:
                 matchLabels:
@@ -45,16 +45,16 @@ spec:
     metadata:
       name: "{{.values.addonChart}}-{{.name}}"
     spec:
-      project: core
+      project: default
       sources:
-        - repoURL: '{{.metadata.annotations.addons_repo_url}}'
-          targetRevision: '{{.metadata.annotations.addons_repo_revision}}'
+        - repoURL: "{{.metadata.annotations.addons_repo_url}}"
+          targetRevision: "{{.metadata.annotations.addons_repo_revision}}"
           ref: values
-        - chart: '{{.values.addonChart}}'
-          repoURL: '{{.values.addonChartRepository}}'
-          targetRevision: '{{.values.addonChartVersion}}'
+        - chart: "{{.values.addonChart}}"
+          repoURL: "{{.values.addonChartRepository}}"
+          targetRevision: "{{.values.addonChartVersion}}"
           helm:
-            releaseName: '{{.values.addonChart}}'
+            releaseName: "{{.values.addonChart}}"
             ignoreMissingValueFiles: true
             valueFiles:
               - $values/{{.metadata.annotations.addons_repo_basepath}}/environments/default/addons/{{.values.addonChart}}/values.yaml
@@ -62,9 +62,9 @@ spec:
               - $values/{{.metadata.annotations.addons_repo_basepath}}/clusters/{{.name}}/addons/{{.values.addonChart}}/values.yaml
             values: |
               installCRDs: true
-        - repoURL: '{{.metadata.annotations.addons_repo_url}}'
-          targetRevision: '{{.metadata.annotations.addons_repo_revision}}'
-          path: '{{.metadata.annotations.addons_repo_basepath}}environments/default/addons/{{.values.addonChart}}/'
+        - repoURL: "{{.metadata.annotations.addons_repo_url}}"
+          targetRevision: "{{.metadata.annotations.addons_repo_revision}}"
+          path: "{{.metadata.annotations.addons_repo_basepath}}environments/default/addons/{{.values.addonChart}}/"
           # fileParameters:
           #  - name:
           #    path:
@@ -72,8 +72,8 @@ spec:
           # values
           # valuesObject
       destination:
-        namespace: '{{.values.addonChart}}'
-        name: '{{.name}}'
+        namespace: "{{.values.addonChart}}"
+        name: "{{.name}}"
       ignoreDifferences:
         # Warning: Kinds are case sensitive
         - group: monitoring.coreos.com
@@ -91,4 +91,4 @@ spec:
         automated: {}
         syncOptions:
           - CreateNamespace=true
-          - ServerSideApply=true  # Big CRDs.
+          - ServerSideApply=true # Big CRDs.
