@@ -1,0 +1,57 @@
+# values.yaml for Grafana on GKE with GCP Managed Prometheus
+
+replicaCount: 1
+
+admin:
+  adminPassword: Password1
+  # existingSecret: grafana-admin
+  # userKey: admin-user
+  # passwordKey: admin-password
+
+persistence:
+  enabled: true
+  size: 10Gi
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: false
+  # You'll want to configure this based on your ingress controller if you expose Grafana
+
+# Plugins required for GCP Monitoring
+plugins:
+  - grafana-google-cloud-monitoring-datasource
+
+# Resources (tune as needed)
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+  name: grafana
+
+sidecar:
+  dashboards:
+    enabled: true
+  datasources:
+    enabled: true
+
+# Optionally, if you want to provision dashboards from a ConfigMap
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: "default"
+        orgId: 1
+        folder: ""
+        type: file
+        disableDeletion: false
