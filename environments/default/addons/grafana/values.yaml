@@ -20,8 +20,6 @@ ingress:
   # You'll want to configure this based on your ingress controller if you expose Grafana
 
 # Plugins required for GCP Monitoring
-plugins:
-  - grafana-google-cloud-monitoring-datasource
 
 # Resources (tune as needed)
 resources:
