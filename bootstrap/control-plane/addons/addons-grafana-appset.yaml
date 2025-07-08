@@ -17,9 +17,9 @@ spec:
         generators:
           - clusters:
               values:
-                addonChart: kueue
+                addonChart: grafana
                 # anything not staging or prod use this version
-                addonChartVersion: 9.2.7
+                addonChartVersion: 9.2.10
                 addonChartRepository: https://grafana.github.io/helm-charts
               selector:
                 matchExpressions:
@@ -34,13 +34,13 @@ spec:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion: 9.2.7
+                addonChartVersion: 9.2.10
           - clusters:
               selector:
                 matchLabels:
                   environment: prod
               values:
-                addonChartVersion: 9.2.7
+                addonChartVersion: 9.2.10
   template:
     metadata:
       name: addon-{{.name}}-{{.values.addonChart}}

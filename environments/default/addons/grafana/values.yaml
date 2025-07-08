@@ -44,14 +44,13 @@ sidecar:
     enabled: true
   datasources:
     enabled: true
-
-# Optionally, if you want to provision dashboards from a ConfigMap
-dashboardProviders:
-  dashboardproviders.yaml:
-    apiVersion: 1
-    providers:
-      - name: "default"
-        orgId: 1
-        folder: ""
-        type: file
-        disableDeletion: false
+# # Optionally, if you want to provision dashboards from a ConfigMap
+# dashboardProviders:
+#   dashboardproviders.yaml:
+#     apiVersion: 1
+#     providers:
+#       - name: "default"
+#         orgId: 1
+#         folder: ""
+#         type: file
+#         disableDeletion: false
