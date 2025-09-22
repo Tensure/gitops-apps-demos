@@ -67,6 +67,11 @@ spec:
     - dws-prov-{{ $pool }}
 {{- range $namespace := $.Values.gpuNodePools.localQueueNamespaces }}
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $namespace }}
+---
 apiVersion: kueue.x-k8s.io/v1beta1
 kind: LocalQueue
 metadata:
