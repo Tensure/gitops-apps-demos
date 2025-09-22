@@ -1,0 +1,81 @@
+{{- if and .Values.gpuNodePools.enabled .Values.gpuNodePools.pools }}
+{{- $pools := splitList "," .Values.gpuNodePools.pools }}
+{{- range $pool := $pools }}
+{{- $pool = trim $pool }}
+{{- if $pool }}
+---
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: ResourceFlavor
+metadata:
+  name: gpu-pool-{{ $pool }}
+  labels:
+    {{- include "kueue.labels" $ | nindent 4 }}
+    kueue.io/resource-flavor: gpu-pool-{{ $pool }}
+spec:
+  nodeLabels:
+    cloud.google.com/gke-nodepool: {{ $pool }}
+---
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: AdmissionCheck
+metadata:
+  name: dws-prov-{{ $pool }}
+  labels:
+    {{- include "kueue.labels" $ | nindent 4 }}
+    kueue.io/admission-check: dws-prov-{{ $pool }}
+spec:
+  controllerName: kueue.x-k8s.io/provisioning-request
+  parameters:
+    apiGroup: kueue.x-k8s.io
+    kind: ProvisioningRequestConfig
+    name: dws-config-{{ $pool }}
+---
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: ProvisioningRequestConfig
+metadata:
+  name: dws-config-{{ $pool }}
+  labels:
+    {{- include "kueue.labels" $ | nindent 4 }}
+    kueue.io/provisioning-config: dws-config-{{ $pool }}
+spec:
+  provisioningClassName: queued-provisioning.gke.io
+  managedResources:
+    - nvidia.com/gpu
+---
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: ClusterQueue
+metadata:
+  name: dws-cluster-queue-{{ $pool }}
+  labels:
+    {{- include "kueue.labels" $ | nindent 4 }}
+    kueue.io/cluster-queue: dws-cluster-queue-{{ $pool }}
+spec:
+  namespaceSelector: {}
+  resourceGroups:
+    - coveredResources: ["cpu", "memory", "nvidia.com/gpu", "ephemeral-storage"]
+      flavors:
+        - name: gpu-pool-{{ $pool }}
+          resources:
+            - name: "cpu"
+              nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.cpu }}
+            - name: "memory"
+              nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.memory }}
+            - name: "nvidia.com/gpu"
+              nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.gpu }}
+            - name: "ephemeral-storage"
+              nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.storage }}
+  admissionChecks:
+    - dws-prov-{{ $pool }}
+---
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: LocalQueue
+metadata:
+  name: gpu-queue-{{ $pool }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "kueue.labels" $ | nindent 4 }}
+    kueue.io/local-queue: gpu-queue-{{ $pool }}
+spec:
+  clusterQueue: dws-cluster-queue-{{ $pool }}
+{{- end }}
+{{- end }}
+{{- end }}

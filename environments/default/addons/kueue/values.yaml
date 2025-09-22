@@ -12,3 +12,24 @@ controllerManager:
     serviceMonitor:
       enabled: true
       namespace: monitoring
+
+# GPU Node Pools Configuration
+# This will be populated by the ApplicationSet from cluster metadata
+gpuNodePools:
+  # Comma-separated list of GPU node pool names
+  # Example: "gpu-pool-1,gpu-pool-2,ml-gpu-pool"
+  pools: ""
+  
+  # Enable generation of GPU-specific Kueue resources
+  enabled: true
+  
+  # Default resource quotas for GPU pools
+  defaultQuotas:
+    cpu: "1000000000"      # "Infinite" quota
+    memory: "1000000000Gi" # "Infinite" quota  
+    gpu: "1000000000"      # "Infinite" quota
+    storage: "1000000000Ti" # "Infinite" quota
+
+# Additional Kueue resources to create
+additionalResources:
+  enabled: true

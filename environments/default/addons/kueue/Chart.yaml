@@ -1,0 +1,14 @@
+apiVersion: v2
+name: kueue-gpu-resources
+description: Custom Kueue resources for GPU node pools
+version: 0.1.0
+appVersion: "1.0"
+keywords:
+  - kueue
+  - gpu
+  - nodepool
+  - batch
+sources:
+  - https://github.com/kubernetes-sigs/kueue
+maintainers:
+  - name: Tensure

@@ -60,6 +60,18 @@ spec:
               - $values/{{.metadata.annotations.addons_repo_basepath}}environments/default/addons/{{.values.addonChart}}/values.yaml
               - $values/{{.metadata.annotations.addons_repo_basepath}}environments/{{.metadata.labels.environment}}/addons/{{.values.addonChart}}/values.yaml
               - $values/{{.metadata.annotations.addons_repo_basepath}}clusters/{{.name}}/addons/{{.values.addonChart}}/values.yaml
+        # Additional source for custom Kueue resources (GPU node pools)
+        - repoURL: "{{.metadata.annotations.addons_repo_url}}"
+          targetRevision: "{{.metadata.annotations.addons_repo_revision}}"
+          path: "{{.metadata.annotations.addons_repo_basepath}}environments/default/addons/{{.values.addonChart}}"
+          helm:
+            releaseName: "{{.values.addonChart}}-gpu-resources"
+            valueFiles:
+              - values.yaml
+            # Inject GPU node pools from cluster metadata into Helm values
+            values: |
+              gpuNodePools:
+                pools: "{{.metadata.annotations.gpu_node_pools}}"
       destination:
         namespace: "{{.values.addonChart}}"
         name: "{{.name}}"
