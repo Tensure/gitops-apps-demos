@@ -1,3 +1,16 @@
+
+# add namespaces
+{{- if .Values.gpuNodePools.localQueueNamespaces }}
+{{- range $namespace := $.Values.gpuNodePools.localQueueNamespaces }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $namespace }}
+{{- end }}
+{{- end }}
+
+# add other CRDs
 {{- if and .Values.gpuNodePools.enabled .Values.gpuNodePools.pools }}
 {{- $pools := splitList "," .Values.gpuNodePools.pools }}
 {{- range $pool := $pools }}
@@ -66,11 +79,6 @@ spec:
   admissionChecks:
     - dws-prov-{{ $pool }}
 {{- range $namespace := $.Values.gpuNodePools.localQueueNamespaces }}
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: {{ $namespace }}
 ---
 apiVersion: kueue.x-k8s.io/v1beta1
 kind: LocalQueue
