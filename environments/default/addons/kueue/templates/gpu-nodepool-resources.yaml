@@ -65,17 +65,19 @@ spec:
               nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.storage }}
   admissionChecks:
     - dws-prov-{{ $pool }}
+{{- range $namespace := .Values.gpuNodePools.localQueueNamespaces }}
 ---
 apiVersion: kueue.x-k8s.io/v1beta1
 kind: LocalQueue
 metadata:
   name: gpu-queue-{{ $pool }}
-  namespace: {{ $.Release.Namespace }}
+  namespace: {{ $namespace }}
   labels:
     {{- include "kueue.labels" $ | nindent 4 }}
     kueue.io/local-queue: gpu-queue-{{ $pool }}
 spec:
   clusterQueue: dws-cluster-queue-{{ $pool }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

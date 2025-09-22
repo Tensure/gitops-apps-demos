@@ -19,16 +19,19 @@ gpuNodePools:
   # Comma-separated list of GPU node pool names
   # Example: "gpu-pool-1,gpu-pool-2,ml-gpu-pool"
   pools: ""
-  
+
   # Enable generation of GPU-specific Kueue resources
   enabled: true
-  
+
   # Default resource quotas for GPU pools
   defaultQuotas:
     cpu: "1000000000"      # "Infinite" quota
-    memory: "1000000000Gi" # "Infinite" quota  
+    memory: "1000000000Gi" # "Infinite" quota
     gpu: "1000000000"      # "Infinite" quota
     storage: "1000000000Ti" # "Infinite" quota
+
+  localQueueNamespaces:
+    - benchmarks
 
 # Additional Kueue resources to create
 additionalResources:
