@@ -85,6 +85,10 @@ spec:
           jsonPointers:
             - /spec/replicas
           kind: Deployment
+        - group: kueue.x-k8s.io
+          jsonPointers:
+            - /status
+          kind: ClusterQueue
       syncPolicy:
         automated: {}
         syncOptions:
