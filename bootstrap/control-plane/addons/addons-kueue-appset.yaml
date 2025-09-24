@@ -19,7 +19,7 @@ spec:
               values:
                 addonChart: kueue
                 # anything not staging or prod use this version
-                addonChartVersion: 0.12.2
+                addonChartVersion: 0.13.4
                 addonChartRepository: registry.k8s.io/kueue/charts
               selector:
                 matchExpressions:
@@ -34,13 +34,13 @@ spec:
                 matchLabels:
                   environment: staging
               values:
-                addonChartVersion: 0.12.2
+                addonChartVersion: 0.13.4
           - clusters:
               selector:
                 matchLabels:
                   environment: prod
               values:
-                addonChartVersion: 0.12.2
+                addonChartVersion: 0.13.4
   template:
     metadata:
       name: addon-{{.name}}-{{.values.addonChart}}

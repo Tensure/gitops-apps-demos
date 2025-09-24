@@ -1,4 +1,7 @@
 controllerManager:
+  featureGates:
+    - name: TopologyAwareScheduling
+      enabled: true
   replicaCount: 2
   resources:
     requests:
