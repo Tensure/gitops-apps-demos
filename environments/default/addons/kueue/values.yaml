@@ -1,5 +1,6 @@
 controllerManager:
   featureGates:
+    # need this feature gate for mixtral-8x7b/nemo-pretraining-gke
     - name: TopologyAwareScheduling
       enabled: true
   replicaCount: 2
