@@ -29,10 +29,10 @@ gpuNodePools:
 
   # Default resource quotas for GPU pools
   defaultQuotas:
-    cpu: "1000000000"      # "Infinite" quota
+    cpu: "1G"      # "Infinite" quota
     memory: "1000000000Gi" # "Infinite" quota
-    gpu: "1000000000"      # "Infinite" quota
-    storage: "1000000000Ti" # "Infinite" quota
+    gpu: "1G"      # "Infinite" quota
+    storage: "9223372036854775807" # "Infinite" quota
 
   localQueueNamespaces:
     - benchmarks
