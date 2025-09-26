@@ -10,6 +10,18 @@ metadata:
 {{- end }}
 {{- end }}
 
+# add topology aware settings
+---
+apiVersion: kueue.x-k8s.io/v1alpha1
+kind: Topology
+metadata:
+  name: default
+spec:
+  levels:
+  - nodeLabel: "topology.gke.io/zone"
+  - nodeLabel: "cloud.google.com/gke-nodepool"
+  - nodeLabel: "kubernetes.io/hostname"
+
 # add other CRDs
 {{- if and .Values.gpuNodePools.enabled .Values.gpuNodePools.pools }}
 {{- $pools := splitList "," .Values.gpuNodePools.pools }}
@@ -27,6 +39,7 @@ metadata:
 spec:
   nodeLabels:
     cloud.google.com/gke-nodepool: {{ $pool }}
+  topologyName: default
 ---
 apiVersion: kueue.x-k8s.io/v1beta1
 kind: AdmissionCheck
