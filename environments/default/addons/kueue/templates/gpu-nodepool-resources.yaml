@@ -13,17 +13,17 @@ metadata:
 {{- end }}
 
 # add topology aware settings
----
-apiVersion: kueue.x-k8s.io/v1alpha1
-kind: Topology
-metadata:
-  name: default
-spec:
-  levels:
-  - nodeLabel: "cloud.google.com/gce-topology-block"
-  - nodeLabel: "cloud.google.com/gce-topology-subblock"
-  - nodeLabel: "cloud.google.com/gce-topology-host"
-  - nodeLabel: "kubernetes.io/hostname"
+# ---
+# apiVersion: kueue.x-k8s.io/v1alpha1
+# kind: Topology
+# metadata:
+#   name: default
+# spec:
+#   levels:
+#   - nodeLabel: "cloud.google.com/gce-topology-block"
+#   - nodeLabel: "cloud.google.com/gce-topology-subblock"
+#   - nodeLabel: "cloud.google.com/gce-topology-host"
+#   - nodeLabel: "kubernetes.io/hostname"
 
 # add other CRDs
 {{- if and .Values.gpuNodePools.enabled .Values.gpuNodePools.pools }}
