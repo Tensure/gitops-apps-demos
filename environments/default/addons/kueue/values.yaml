@@ -36,6 +36,7 @@ gpuNodePools:
 
   localQueueNamespaces:
     - benchmarks
+    - default
 
 # Additional Kueue resources to create
 additionalResources:
