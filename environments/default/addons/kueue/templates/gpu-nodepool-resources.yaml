@@ -2,11 +2,13 @@
 # add namespaces
 {{- if .Values.gpuNodePools.localQueueNamespaces }}
 {{- range $namespace := $.Values.gpuNodePools.localQueueNamespaces }}
+{{- if ne $namespace "default" }}
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
   name: {{ $namespace }}
+{{- end }}
 {{- end }}
 {{- end }}
 
