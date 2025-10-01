@@ -1,0 +1,179 @@
+apiVersion: networking.gke.io/v1
+kind: GKENetworkParamSet
+metadata:
+  name: gvnic-1
+spec:
+  vpc: tensureml-gvnic-network
+  vpcSubnet: tensureml-gvnic-subnet
+  deviceMode: NetDevice
+---
+apiVersion: networking.gke.io/v1
+kind: Network
+metadata:
+  name: gvnic-1
+spec:
+  type: "Device"
+  parametersRef:
+    group: networking.gke.io
+    kind: GKENetworkParamSet
+    name: gvnic-1
+---
+apiVersion: networking.gke.io/v1
+kind: GKENetworkParamSet
+metadata:
+  name: rdma-0
+spec:
+  vpc: tensureml-rdma-network
+  vpcSubnet: tensureml-rdma-0
+  deviceMode: RDMA
+---
+apiVersion: networking.gke.io/v1
+kind: Network
+metadata:
+  name: rdma-0
+spec:
+  type: "Device"
+  parametersRef:
+    group: networking.gke.io
+    kind: GKENetworkParamSet
+    name: rdma-0
+---
+apiVersion: networking.gke.io/v1
+kind: GKENetworkParamSet
+metadata:
+  name: rdma-1
+spec:
+  vpc: tensureml-rdma-network
+  vpcSubnet: tensureml-rdma-1
+  deviceMode: RDMA
+---
+apiVersion: networking.gke.io/v1
+kind: Network
+metadata:
+  name: rdma-1
+spec:
+  type: "Device"
+  parametersRef:
+    group: networking.gke.io
+    kind: GKENetworkParamSet
+    name: rdma-1
+---
+apiVersion: networking.gke.io/v1
+kind: GKENetworkParamSet
+metadata:
+  name: rdma-2
+spec:
+  vpc: tensureml-rdma-network
+  vpcSubnet: tensureml-rdma-2
+  deviceMode: RDMA
+---
+apiVersion: networking.gke.io/v1
+kind: Network
+metadata:
+  name: rdma-2
+spec:
+  type: "Device"
+  parametersRef:
+    group: networking.gke.io
+    kind: GKENetworkParamSet
+    name: rdma-2
+---
+apiVersion: networking.gke.io/v1
+kind: GKENetworkParamSet
+metadata:
+  name: rdma-3
+spec:
+  vpc: tensureml-rdma-network
+  vpcSubnet: tensureml-rdma-3
+  deviceMode: RDMA
+---
+apiVersion: networking.gke.io/v1
+kind: Network
+metadata:
+  name: rdma-3
+spec:
+  type: "Device"
+  parametersRef:
+    group: networking.gke.io
+    kind: GKENetworkParamSet
+    name: rdma-3
+---
+apiVersion: networking.gke.io/v1
+kind: GKENetworkParamSet
+metadata:
+  name: rdma-4
+spec:
+  vpc: tensureml-rdma-network
+  vpcSubnet: tensureml-rdma-4
+  deviceMode: RDMA
+---
+apiVersion: networking.gke.io/v1
+kind: Network
+metadata:
+  name: rdma-4
+spec:
+  type: "Device"
+  parametersRef:
+    group: networking.gke.io
+    kind: GKENetworkParamSet
+    name: rdma-4
+---
+apiVersion: networking.gke.io/v1
+kind: GKENetworkParamSet
+metadata:
+  name: rdma-5
+spec:
+  vpc: tensureml-rdma-network
+  vpcSubnet: tensureml-rdma-5
+  deviceMode: RDMA
+---
+apiVersion: networking.gke.io/v1
+kind: Network
+metadata:
+  name: rdma-5
+spec:
+  type: "Device"
+  parametersRef:
+    group: networking.gke.io
+    kind: GKENetworkParamSet
+    name: rdma-5
+---
+apiVersion: networking.gke.io/v1
+kind: GKENetworkParamSet
+metadata:
+  name: rdma-6
+spec:
+  vpc: tensureml-rdma-network
+  vpcSubnet: tensureml-rdma-6
+  deviceMode: RDMA
+---
+apiVersion: networking.gke.io/v1
+kind: Network
+metadata:
+  name: rdma-6
+spec:
+  type: "Device"
+  parametersRef:
+    group: networking.gke.io
+    kind: GKENetworkParamSet
+    name: rdma-6
+---
+apiVersion: networking.gke.io/v1
+kind: GKENetworkParamSet
+metadata:
+  name: rdma-7
+spec:
+  vpc: tensureml-rdma-network
+  vpcSubnet: tensureml-rdma-7
+  deviceMode: RDMA
+---
+apiVersion: networking.gke.io/v1
+kind: Network
+metadata:
+  name: rdma-7
+spec:
+  type: "Device"
+  parametersRef:
+    group: networking.gke.io
+    kind: GKENetworkParamSet
+    name: rdma-7
