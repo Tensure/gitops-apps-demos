@@ -13,17 +13,17 @@ metadata:
 {{- end }}
 
 # add topology aware settings
-# ---
-# apiVersion: kueue.x-k8s.io/v1alpha1
-# kind: Topology
-# metadata:
-#   name: default
-# spec:
-#   levels:
-#   - nodeLabel: "cloud.google.com/gce-topology-block"
-#   - nodeLabel: "cloud.google.com/gce-topology-subblock"
-#   - nodeLabel: "cloud.google.com/gce-topology-host"
-#   - nodeLabel: "kubernetes.io/hostname"
+---
+apiVersion: kueue.x-k8s.io/v1alpha1
+kind: Topology
+metadata:
+  name: gke-default
+spec:
+  levels:
+  - nodeLabel: "cloud.google.com/gce-topology-block"
+  - nodeLabel: "cloud.google.com/gce-topology-subblock"
+  - nodeLabel: "cloud.google.com/gce-topology-host"
+  - nodeLabel: "kubernetes.io/hostname"
 
 # add other CRDs
 {{- if and .Values.gpuNodePools.enabled .Values.gpuNodePools.pools }}
@@ -42,7 +42,7 @@ metadata:
 spec:
   nodeLabels:
     cloud.google.com/gke-nodepool: {{ $pool }}
-  #topologyName: default
+  topologyName: gke-default
 ---
 apiVersion: kueue.x-k8s.io/v1beta1
 kind: AdmissionCheck
@@ -84,14 +84,8 @@ spec:
       flavors:
         - name: gpu-pool-{{ $pool }}
           resources:
-            - name: "cpu"
-              nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.cpu }}
-            - name: "memory"
-              nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.memory }}
             - name: "nvidia.com/gpu"
               nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.gpu }}
-            - name: "ephemeral-storage"
-              nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.storage }}
   admissionChecks:
     - dws-prov-{{ $pool }}
 {{- range $namespace := $.Values.gpuNodePools.localQueueNamespaces }}
