@@ -55,6 +55,10 @@ spec:
   nodeLabels:
     cloud.google.com/gke-nodepool: {{ $pool }}
   topologyName: gke-default
+  tolerations:
+  - key: "nvidia.com/gpu" # Most cloud providers auto inject the toleration to the pods based on the nodeSelector via a webhook. However, TAS isn't aware of the webhook, so you need to manually add the toleration here.
+    operator: "Exists"
+    effect: "NoSchedule"
 ---
 apiVersion: kueue.x-k8s.io/v1beta1
 kind: AdmissionCheck
