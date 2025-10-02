@@ -41,3 +41,11 @@ gpuNodePools:
 # Additional Kueue resources to create
 additionalResources:
   enabled: true
+
+# ServiceAccount configuration for ML benchmark workloads
+serviceAccount:
+  name: "tensure-ml-benchmark-sa"
+  workloadIdentity:
+    enabled: false
+    # Set to your GCP service account email when using Workload Identity
+    #gcpServiceAccount: "your-service-account@your-project.iam.gserviceaccount.com"

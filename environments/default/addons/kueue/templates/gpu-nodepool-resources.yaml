@@ -9,6 +9,18 @@ kind: Namespace
 metadata:
   name: {{ $namespace }}
 {{- end }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ $.Values.serviceAccount.name | default "tensure-ml-benchmark-sa" }}
+  namespace: {{ $namespace }}
+  labels:
+    {{- include "kueue.labels" $ | nindent 4 }}
+  annotations:
+    {{- if $.Values.serviceAccount.workloadIdentity.enabled }}
+    iam.gke.io/gcp-service-account: {{ $.Values.serviceAccount.workloadIdentity.gcpServiceAccount }}
+    {{- end }}
 {{- end }}
 {{- end }}
 
