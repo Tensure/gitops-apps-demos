@@ -84,8 +84,14 @@ spec:
       flavors:
         - name: gpu-pool-{{ $pool }}
           resources:
+            - name: "cpu"
+              nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.cpu }}
+            - name: "memory"
+              nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.memory }}
             - name: "nvidia.com/gpu"
               nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.gpu }}
+            - name: "ephemeral-storage"
+              nominalQuota: {{ $.Values.gpuNodePools.defaultQuotas.storage }}
   admissionChecks:
     - dws-prov-{{ $pool }}
 {{- range $namespace := $.Values.gpuNodePools.localQueueNamespaces }}
