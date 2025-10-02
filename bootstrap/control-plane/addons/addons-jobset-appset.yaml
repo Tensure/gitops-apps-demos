@@ -73,6 +73,11 @@ spec:
           jsonPointers:
             - /spec/replicas
           kind: Deployment
+        - group: ""
+          name: jobset-webhook-server-cert
+          jsonPointers:
+            - /data
+          kind: Secret
       syncPolicy:
         automated: {}
         syncOptions:
