@@ -54,7 +54,7 @@ metadata:
 spec:
   nodeLabels:
     cloud.google.com/gke-nodepool: {{ $pool }}
-  #topologyName: gke-default
+  topologyName: gke-default
 ---
 apiVersion: kueue.x-k8s.io/v1beta1
 kind: AdmissionCheck
